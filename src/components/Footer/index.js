@@ -25,7 +25,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center">
                 <FontAwesomeIcon
                   icon={faTooth}
                   className="text-white text-lg"
@@ -40,28 +40,28 @@ const Footer = () => {
             <div className="flex space-x-4 pt-4">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors"
                 aria-label="Facebook"
               >
                 <FontAwesomeIcon icon={faFacebookF} className="text-white" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors"
                 aria-label="Twitter"
               >
                 <FontAwesomeIcon icon={faTwitter} className="text-white" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <FontAwesomeIcon icon={faInstagram} className="text-white" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded-full bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors"
                 aria-label="LinkedIn"
               >
                 <FontAwesomeIcon icon={faLinkedinIn} className="text-white" />
@@ -74,14 +74,17 @@ const Footer = () => {
             <h4 className="text-lg font-bold text-white mb-6">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <a href="/" className="hover:text-blue-400 transition-colors">
+                <a
+                  href="/"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
+                >
                   Home
                 </a>
               </li>
               <li>
                 <a
                   href="#services"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   Services
                 </a>
@@ -89,7 +92,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#doctors"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   Doctors
                 </a>
@@ -97,7 +100,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#about"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   About Us
                 </a>
@@ -105,7 +108,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#contact"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   Contact
                 </a>
@@ -120,7 +123,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   General Checkups
                 </a>
@@ -128,7 +131,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   Teeth Whitening
                 </a>
@@ -136,7 +139,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   Root Canal Treatment
                 </a>
@@ -144,7 +147,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   Orthodontics
                 </a>
@@ -152,7 +155,7 @@ const Footer = () => {
               <li>
                 <a
                   href="#services"
-                  className="hover:text-blue-400 transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   Dental Implants
                 </a>
@@ -167,7 +170,7 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <FontAwesomeIcon
                   icon={faMapMarkerAlt}
-                  className="text-blue-400 mt-1 flex-shrink-0"
+                  className="text-gray-400 mt-1 flex-shrink-0"
                 />
                 <span className="text-sm">
                   123 Hitech City, Hyderabad, Telangana 501234
@@ -176,11 +179,11 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <FontAwesomeIcon
                   icon={faPhoneAlt}
-                  className="text-blue-400 mt-1 flex-shrink-0"
+                  className="text-gray-400 mt-1 flex-shrink-0"
                 />
                 <a
                   href="tel:+919876543210"
-                  className="text-sm hover:text-blue-400 transition-colors"
+                  className="text-sm text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   +91 9876543210
                 </a>
@@ -188,11 +191,11 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <FontAwesomeIcon
                   icon={faEnvelope}
-                  className="text-blue-400 mt-1 flex-shrink-0"
+                  className="text-gray-400 mt-1 flex-shrink-0"
                 />
                 <a
                   href="mailto:info@smilecare.com"
-                  className="text-sm hover:text-blue-400 transition-colors"
+                  className="text-sm text-gray-300 hover:text-white transition-colors no-underline"
                 >
                   info@smilecare.com
                 </a>
@@ -200,7 +203,7 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <FontAwesomeIcon
                   icon={faClock}
-                  className="text-blue-400 mt-1 flex-shrink-0"
+                  className="text-gray-400 mt-1 flex-shrink-0"
                 />
                 <span className="text-sm">Mon-Fri: 8:00 AM - 7:00 PM</span>
               </div>
@@ -221,19 +224,19 @@ const Footer = () => {
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a
               href="#"
-              className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
+              className="text-sm text-gray-400 hover:text-white transition-colors no-underline"
             >
               Privacy Policy
             </a>
             <a
               href="#"
-              className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
+              className="text-sm text-gray-400 hover:text-white transition-colors no-underline"
             >
               Terms of Service
             </a>
             <a
               href="#"
-              className="text-sm text-gray-400 hover:text-blue-400 transition-colors"
+              className="text-sm text-gray-400 hover:text-white transition-colors no-underline"
             >
               Cookie Policy
             </a>

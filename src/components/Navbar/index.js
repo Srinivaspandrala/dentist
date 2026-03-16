@@ -30,10 +30,10 @@ const Navbar = () => {
               scrollToTop();
               setIsOpen(false);
             }}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 no-underline"
           >
             <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">🦷</span>
+              <span className="text-white font-bold text-lg">??</span>
             </div>
             <span className="font-bold text-xl text-gray-900 hidden sm:inline">
               SmileCare
@@ -45,31 +45,31 @@ const Navbar = () => {
             <Link
               to="/"
               onClick={scrollToTop}
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               Home
             </Link>
             <a
               href="#services"
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               Services
             </a>
             <a
               href="#doctors"
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               Doctors
             </a>
             <a
               href="#about"
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               About
             </a>
             <a
               href="#contact"
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors flex items-center space-x-1"
+              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors flex items-center space-x-1 no-underline"
             >
               <FontAwesomeIcon icon={faPhone} className="text-blue-600" />
               <span>Contact</span>
@@ -81,11 +81,11 @@ const Navbar = () => {
             <Link
               to="/login"
               onClick={scrollToTop}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors no-underline"
             >
               Login
             </Link>
-            <a href="#doctors" className="btn-primary text-sm">
+            <a href="#doctors" className="btn-primary text-sm no-underline">
               Book Appointment
             </a>
           </div>
@@ -110,38 +110,37 @@ const Navbar = () => {
                 scrollToTop();
                 setIsOpen(false);
               }}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               Home
             </Link>
             <a
               href="#services"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               Services
             </a>
             <a
               href="#doctors"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               Doctors
             </a>
             <a
               href="#about"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
               About
             </a>
             <a
               href="#contact"
               onClick={() => setIsOpen(false)}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors no-underline"
             >
-              <FontAwesomeIcon icon={faPhone} className="text-blue-600" />{" "}
-              Contact
+              <FontAwesomeIcon icon={faPhone} className="text-blue-600" /> Contact
             </a>
             <div className="px-3 py-2 space-y-2">
               <Link
@@ -150,14 +149,14 @@ const Navbar = () => {
                   scrollToTop();
                   setIsOpen(false);
                 }}
-                className="block w-full text-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                className="block w-full text-center px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors no-underline"
               >
                 Login
               </Link>
               <a
                 href="#doctors"
                 onClick={() => setIsOpen(false)}
-                className="block w-full text-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="block w-full text-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors no-underline"
               >
                 Book Appointment
               </a>

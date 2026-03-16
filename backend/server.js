@@ -17,18 +17,7 @@ const db = new sqlite3.Database("database.db", (err) => {
 });
 
 // Middleware
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "https://dentist-2a03.onrender.com",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  }),
-);
+app.use(cors());
 app.use(express.json());
 
 // Initialize tables and seed data
