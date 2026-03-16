@@ -1,0 +1,158 @@
+/* About Us Section */
+.about-us {
+  padding: 5rem 0;
+  background-color: #f8f9fa;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.about-content {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.about-image {
+  position: relative;
+  flex: 1;
+}
+
+.doctor-portrait {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-badge {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(to right, #3a7bd5, #00d2ff);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+}
+
+.about-text {
+  flex: 1;
+}
+
+h2 {
+  font-size: 2.2rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.tagline {
+  color: #3a7bd5;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.about-highlights {
+  margin: 2rem 0;
+}
+
+.highlight-item {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  align-items: flex-start;
+}
+
+.highlight-icon {
+  color: #3a7bd5;
+  font-size: 1.5rem;
+  margin-top: 0.3rem;
+}
+
+.highlight-item h4 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.highlight-item p {
+  color: #6c757d;
+  font-size: 0.95rem;
+}
+
+.mission-statement {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  margin: 2rem 0;
+  display: flex;
+  gap: 1rem;
+  border-left: 4px solid #3a7bd5;
+}
+
+.mission-icon {
+  color: #3a7bd5;
+  font-size: 1.2rem;
+  margin-top: 0.3rem;
+}
+
+.mission-statement p {
+  font-style: italic;
+  color: #2c3e50;
+}
+
+.cta-button {
+  background: linear-gradient(to right, #3a7bd5, #00d2ff);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+}
+
+.cta-button:hover {
+  background: linear-gradient(to right, #2c65b8, #00b8e6);
+  transform: translateY(-3px);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .about-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .about-image, .about-text {
+    width: 100%;
+  }
+  
+  .doctor-portrait {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-us {
+    padding: 3rem 0;
+  }
+  
+  h2 {
+    font-size: 1.8rem;
+  }
+}
