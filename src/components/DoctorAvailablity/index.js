@@ -28,7 +28,7 @@ const DoctorAvailability = () => {
   const [showAbout, setShowAbout] = useState(false);
   const [activeMonth, setActiveMonth] = useState(new Date());
   const [loading, setLoading] = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [toast, setToast] = useState(null);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -38,27 +38,87 @@ const DoctorAvailability = () => {
   });
 
   useEffect(() => {
-    async function fetchDoctor() {
-      try {
-        const data = await doctorsData();
-        const found = Array.isArray(data)
-          ? data.find((doc, idx) => String(doc.id || idx) === String(id))
-          : null;
-        setDoctor(found || null);
-      } catch (err) {
-        console.error("Error fetching doctor:", err);
-        setDoctor(null);
-      }
+    if (!showModal) {
+      setLoading(false);
     }
-    fetchDoctor();
-  }, [id]);
+  }, [showModal]);
+
+  const fetchDoctorForDate = async (dateValue) => {
+    try {
+      const data = await doctorsData(dateValue);
+      const found = Array.isArray(data)
+        ? data.find((doc, idx) => String(doc.id || idx) === String(id))
+        : null;
+      setDoctor(found || null);
+      return found || null;
+    } catch (err) {
+      console.error("Error fetching doctor:", err);
+      setDoctor(null);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    fetchDoctorForDate(form.date);
+  }, [id, form.date]);
+
+  useEffect(() => {
+    if (!doctor || !doctor.slots || !form.time_slot) return;
+    const status = doctor.slots[form.time_slot];
+    if (status && status !== "available") {
+      setForm((prev) => ({ ...prev, time_slot: "" }));
+    }
+  }, [doctor, form.time_slot]);
 
   const handleFormChange = (e) => {
     setForm({ ...form, [e.target.id]: e.target.value });
   };
 
+  const showToast = (type, title, message) => {
+    setToast({ type, title, message });
+    setTimeout(() => setToast(null), 5000); // Increased from 3 to 5 seconds
+  };
+
+  const validateForm = () => {
+    const errors = [];
+
+    if (!form.name.trim()) {
+      errors.push("Full name is required");
+    }
+
+    if (!form.email.trim()) {
+      errors.push("Email is required");
+    } else if (!form.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      errors.push("Please enter a valid email");
+    }
+
+    if (!form.phone.trim()) {
+      errors.push("Phone number is required");
+    } else if (!form.phone.match(/^\d{10}$/)) {
+      errors.push("Phone number must be 10 digits");
+    }
+
+    if (!form.date) {
+      errors.push("Please select a date");
+    }
+
+    if (!form.time_slot) {
+      errors.push("Please select a time slot");
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form before submission
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      showToast("error", "Validation Error", validationErrors.join(", "));
+      return;
+    }
+
     setLoading(true);
     const payload = {
       patient_name: form.name,
@@ -69,6 +129,29 @@ const DoctorAvailability = () => {
       doctor: doctor?.name,
       specialist: doctor?.qualification,
     };
+
+    // Close modal and show success immediately
+    setLoading(false);
+    setShowModal(false);
+
+    // Show success toast
+    showToast("success", "Appointment booked successfully!");
+
+    // Reset form
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      date: new Date().toISOString().slice(0, 10),
+      time_slot: "",
+    });
+
+    // Redirect to home after 1 second
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+
+    // Send API requests in background (non-blocking)
     try {
       const createRes = await fetch(`${API_BASE}/api/patients`, {
         method: "POST",
@@ -76,22 +159,31 @@ const DoctorAvailability = () => {
         body: JSON.stringify(payload),
       });
 
-      if (!createRes.ok) {
-        const errorText = await createRes.text();
-        throw new Error(errorText || "Failed booking appointment");
-      }
+      if (createRes.ok) {
+        // Update slot after patient is created
+        await fetch(`${API_BASE}/api/schedule`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: doctor?.name,
+            date: form.date,
+            time_slot: form.time_slot,
+            status: "booked",
+          }),
+        });
 
-      setBookingSuccess(true);
-      setShowModal(false);
-      setTimeout(() => {
-        setBookingSuccess(false);
-        navigate("/");
-      }, 3000);
+        // Update doctor slots in UI
+        setDoctor((prev) =>
+          prev
+            ? {
+                ...prev,
+                slots: { ...(prev.slots || {}), [form.time_slot]: "booked" },
+              }
+            : prev,
+        );
+      }
     } catch (err) {
-      console.error("Booking error:", err);
-      alert("Failed to book appointment. Please try again.");
-    } finally {
-      setLoading(false);
+      console.error("Background booking error:", err);
     }
   };
 
@@ -112,21 +204,54 @@ const DoctorAvailability = () => {
     );
 
   const timeSlots = [
-    "9:00 AM",
-    "9:30 AM",
-    "10:00 AM",
-    "10:30 AM",
-    "11:00 AM",
-    "11:30 AM",
-    "2:00 PM",
-    "2:30 PM",
-    "3:00 PM",
-    "3:30 PM",
-    "4:00 PM",
-    "4:30 PM",
-    "5:00 PM",
-    "5:30 PM",
+    { value: "9am-10am", label: "9:00 AM - 10:00 AM" },
+    { value: "10am-11am", label: "10:00 AM - 11:00 AM" },
+    { value: "11am-12pm", label: "11:00 AM - 12:00 PM" },
+    { value: "12pm-1pm", label: "12:00 PM - 1:00 PM" },
+    { value: "2pm-3pm", label: "2:00 PM - 3:00 PM" },
+    { value: "4pm-5pm", label: "4:00 PM - 5:00 PM" },
+    { value: "5pm-6pm", label: "5:00 PM - 6:00 PM" },
+    { value: "6pm-8pm", label: "6:00 PM - 8:00 PM" },
+    { value: "8pm-9pm", label: "8:00 PM - 9:00 PM" },
   ];
+
+  const selectedSlotLabel =
+    timeSlots.find((slot) => slot.value === form.time_slot)?.label ||
+    form.time_slot ||
+    "Not selected";
+
+  // Check if a time slot is in the past
+  const isTimeSlotPassed = (slotValue, selectedDate) => {
+    const now = new Date();
+    const selectedDateObj = new Date(selectedDate);
+    const todayStr = new Date().toISOString().slice(0, 10);
+
+    // If date is not today, slot is not passed
+    if (selectedDate !== todayStr) {
+      return false;
+    }
+
+    // Extract hour from slot value (e.g., "9am-10am" -> 9, "12pm-1pm" -> 12)
+    const hourMatch = slotValue.match(/^(\d+)/);
+    if (!hourMatch) return false;
+
+    let slotHour = parseInt(hourMatch[1]);
+
+    // Adjust for PM times
+    if (slotValue.includes("pm") && slotHour !== 12) {
+      slotHour += 12;
+    } else if (slotValue.includes("am") && slotHour === 12) {
+      slotHour = 0;
+    }
+
+    const currentHour = now.getHours();
+    const currentMinutes = now.getMinutes();
+    const currentTotalMinutes = currentHour * 60 + currentMinutes;
+    const slotTotalMinutes = slotHour * 60;
+
+    // Slot is passed if it's earlier than current time
+    return slotTotalMinutes <= currentTotalMinutes;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
@@ -146,22 +271,27 @@ const DoctorAvailability = () => {
         </div>
       </div>
 
-      {/* Success Message */}
-      {bookingSuccess && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-start space-x-3">
+      {/* Toast Message */}
+      {toast && (
+        <div className="fixed top-6 right-6 z-50 max-w-sm w-full">
+          <div
+            className={`rounded-lg border p-4 shadow-lg flex items-start space-x-3 ${
+              toast.type === "success"
+                ? "bg-green-50 border-green-200 text-green-900"
+                : "bg-red-50 border-red-200 text-red-900"
+            }`}
+          >
             <FontAwesomeIcon
-              icon={faCheckCircle}
-              className="text-green-600 text-xl mt-1 flex-shrink-0"
+              icon={
+                toast.type === "success" ? faCheckCircle : faExclamationCircle
+              }
+              className={`text-xl mt-1 flex-shrink-0 ${
+                toast.type === "success" ? "text-green-600" : "text-red-600"
+              }`}
             />
             <div>
-              <h3 className="font-bold text-green-900">
-                Appointment Booked Successfully!
-              </h3>
-              <p className="text-green-800 text-sm mt-1">
-                A confirmation email has been sent to {form.email}. You will be
-                redirected shortly.
-              </p>
+              <h3 className="font-bold">{toast.title}</h3>
+              <p className="text-sm mt-1">{toast.message}</p>
             </div>
           </div>
         </div>
@@ -323,22 +453,57 @@ const DoctorAvailability = () => {
                 </p>
                 <div className="grid grid-cols-4 gap-3">
                   {timeSlots.map((slot) => {
-                    const isSelected = form.time_slot === slot;
+                    const status = doctor?.slots?.[slot.value] || "available";
+                    const isBooked = status !== "available";
+                    const isPassedTime = isTimeSlotPassed(
+                      slot.value,
+                      form.date,
+                    );
+                    const isDisabled = isBooked || isPassedTime;
+                    const isSelected = form.time_slot === slot.value;
                     return (
                       <button
-                        key={slot}
-                        onClick={() => setForm({ ...form, time_slot: slot })}
-                        className={`p-3 rounded-lg text-center font-medium transition-colors ${
-                          isSelected
-                            ? "bg-blue-600 text-white"
-                            : "bg-gray-100 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                        key={slot.value}
+                        onClick={() =>
+                          !isDisabled &&
+                          setForm({ ...form, time_slot: slot.value })
+                        }
+                        disabled={isDisabled}
+                        title={
+                          isPassedTime
+                            ? "This time has passed"
+                            : isBooked
+                              ? "Slot booked"
+                              : ""
+                        }
+                        className={`p-3 rounded-lg text-center font-medium transition-colors relative ${
+                          isDisabled
+                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                            : isSelected
+                              ? "bg-blue-600 text-white"
+                              : "bg-gray-100 text-gray-600 hover:bg-blue-50 hover:text-blue-600"
                         }`}
                       >
-                        {slot}
+                        {slot.label}
+                        {isPassedTime && (
+                          <span className="absolute top-1 right-1 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">
+                            ✕
+                          </span>
+                        )}
                       </button>
                     );
                   })}
                 </div>
+                {!form.time_slot && (
+                  <p className="text-red-600 text-sm font-medium mt-2">
+                    ⚠️ Time slot is required
+                  </p>
+                )}
+                {form.date === new Date().toISOString().slice(0, 10) && (
+                  <p className="text-blue-600 text-xs font-medium mt-2">
+                    ℹ️ Past time slots are disabled for today
+                  </p>
+                )}
               </div>
 
               {/* Quick Info */}
@@ -355,7 +520,7 @@ const DoctorAvailability = () => {
                       day: "numeric",
                     })}
                   </p>
-                  <p>🕐 Time: {form.time_slot || "Not selected"}</p>
+                  <p>🕐 Time: {selectedSlotLabel}</p>
                   <p>👨‍⚕️ Doctor: {doctor.name}</p>
                   <p>📍 Duration: 30 minutes</p>
                 </div>
@@ -449,7 +614,7 @@ const DoctorAvailability = () => {
                   })}
                 </p>
                 <p className="text-sm text-gray-600">
-                  🕐 {form.time_slot || "Select a time"}
+                  🕐 {selectedSlotLabel || "Select a time"}
                 </p>
               </div>
 
@@ -462,9 +627,21 @@ const DoctorAvailability = () => {
                   !form.phone ||
                   !form.time_slot
                 }
-                className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`w-full py-3 px-4 rounded-lg font-semibold transition-all ${
+                  loading ||
+                  !form.name ||
+                  !form.email ||
+                  !form.phone ||
+                  !form.time_slot
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700"
+                }`}
               >
-                {loading ? "Booking..." : "Confirm Booking"}
+                {loading
+                  ? "Booking..."
+                  : !form.time_slot
+                    ? "Select a time to book"
+                    : "Confirm Booking"}
               </button>
             </form>
           </div>
