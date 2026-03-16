@@ -1,4 +1,5 @@
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000";
+const API_BASE =
+  process.env.REACT_APP_API_BASE || "https://dentist-2a03.onrender.com";
 const DOCTORS_API_URL = `${API_BASE}/api/schedule`;
 
 const doctorsData = async () => {

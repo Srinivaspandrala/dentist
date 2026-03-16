@@ -17,7 +17,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import doctorsData from "../DoctorData";
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000";
+const API_BASE =
+  process.env.REACT_APP_API_BASE || "https://dentist-2a03.onrender.com";
 
 const DoctorAvailability = () => {
   const { id } = useParams();
