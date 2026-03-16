@@ -22,7 +22,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:3001",
-      "http://reactjs-test-12.s3-website.ap-south-1.amazonaws.com",
+      "https://dentist-2a03.onrender.com",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
